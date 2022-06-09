@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>CalcJ</title>
+
+</head>
+<body>
+    <div class="calc">
+        <input type="text" class="calc-screen" id="result" value="0" disabled />
+
+        <div class="calc-keys">
+            <button type="button" class="operator" value="+">+</button>
+            <button type="button" class="operator" value="-">-</button>
+            <button type="button" class="operator" value="*">&times;</button>
+            <button type="button" class="operator" value="/">&divide;</button>
+
+            <button type="button" class="number" value="7">7</button>
+            <button type="button" class="number" value="8">8</button>
+            <button type="button" class="number" value="9">9</button>
+
+            <button type="button" class="number" value="4">4</button>
+            <button type="button" class="number" value="5">5</button>
+            <button type="button" class="number" value="6">6</button>
+
+            <button type="button" class="number" value="1">1</button>
+            <button type="button" class="number" value="2">2</button>
+            <button type="button" class="number" value="3">3</button>
+
+            <button type="button" class="number" value="0">0</button>
+
+            <button type="button" class="decimal" id="decimal">.</button>
+            <button type="button" class="all-clear" id="clear">AC</button>
+
+            <button type="button" class="equal-sign" id="equals" value="=">=</button>
+        </div>
+    </div>
+
+    <script>
+        let operand1 = null,
+            operation = null,
+            currentInput = "";
+
+        const screen = document.getElementById("result")
+
+        function handleNumber() {
+            currentInput += this.value
+            screen.value = currentInput
+        }
+
+        function handleDecimal() {
+            currentInput += "."
+            screen.value = currentInput
+        }
+
+        function handleOperation() {
+            operation = this.value
+            operand1 = currentInput
+            currentInput = ""
+            screen.value = 0
+        }
+
+        function handleEquals() {
+            screen.value = calculate(operand1, operation, currentInput)
+            currentInput = ""
+            operation = null
+            operand1 = null
+        }
+
+        function calculate(o1, op, o2) {
+            switch (op) {
+                case '+':
+                    return parseFloat(o1) + parseFloat(o2)
+
+                case '-':
+                    return parseFloat(o1) - parseFloat(o2)
+
+                case '*':
+                    return parseFloat(o1) * parseFloat(o2)
+
+
+                case '/':
+                    return parseFloat(o1) / parseFloat(o2)
+            }
+        }
+
+        function clear(){
+            operand1 = null
+            operation = null
+            currentInput = ""
+            screen.value = 0
+        }
+
+        const numbers = document.getElementsByClassName("number")
+        const operations = document.getElementsByClassName("operator")
+
+        for (let i = 0; i < numbers.length; ++i) {
+            numbers[i].addEventListener('click', handleNumber, false)
+        }
+
+        for (let i = 0; i < operations.length; ++i) {
+            operations[i].addEventListener('click', handleOperation, false)
+        }
+
+        document.getElementById("equals").addEventListener('click', handleEquals)
+        document.getElementById("decimal").addEventListener('click', handleDecimal)
+        document.getElementById("clear").addEventListener('click', clear)
+    </script>
+</body>
+
+</html>
